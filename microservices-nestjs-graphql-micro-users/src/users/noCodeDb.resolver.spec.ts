@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { User } from './models/user.model';
-import { UsersResolver } from './users.resolver';
-import { UsersService } from './users.service';
+import { UsersResolver } from './noCodeDb.resolver';
+import { UsersService } from './noCodeDb.service';
 
 const usersServiceMock = {
   findById: jest.fn((id: string): User => {
