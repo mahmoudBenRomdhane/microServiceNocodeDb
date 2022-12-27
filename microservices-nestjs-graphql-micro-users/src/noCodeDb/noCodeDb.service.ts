@@ -411,4 +411,73 @@ export class UsersService {
       canUpdate: permession,
     };
   }
+  static async getHooks(getHookInput) {
+    const responseAuth = await UsersService.getToken();
+    let config = {
+      method: 'get',
+      url: `http://145.239.168.115:8080/api/v1/db/meta/tables/${getHookInput.tableId}/hooks`,
+      headers: {
+        'xc-auth': responseAuth.data.token,
+      },
+    };
+    try {
+      const response = await axios(config);
+      return response;
+    } catch (err) {
+      throw new GraphQLError(err.toJSON().status);
+    }
+  }
+  static async addHook(addHookInput) {
+    const responseAuth = await UsersService.getToken();
+    let config = {
+      method: 'post',
+      url: `http://145.239.168.115:8080/api/v1/db/meta/tables/${addHookInput.tableId}/hooks`,
+      headers: {
+        'xc-auth': responseAuth.data.token,
+        'Content-Type': 'application/json',
+        Cookie:
+          'refresh_token=7f090c83901cf25b14f513c8a54fe20e0dac3ec951c2780501d9bd349f89a9f86f84d46022d53229',
+      },
+      data: addHookInput.data,
+    };
+    try {
+      const response = await axios(config);
+      return response;
+    } catch (err) {
+      throw new GraphQLError(err.toJSON().status);
+    }
+  }
+  static async deleteHook(hookId) {
+    const responseAuth = await UsersService.getToken();
+    let config = {
+      method: 'delete',
+      url: `http://145.239.168.115:8080/api/v1/db/meta/hooks/${hookId}`,
+      headers: {
+        'xc-auth': responseAuth.data.token,
+      },
+    };
+    try {
+      const response = await axios(config);
+      return response;
+    } catch (err) {
+      throw new GraphQLError(err.toJSON().status);
+    }
+  }
+  static async updateHook(updateHookInput) {
+    const responseAuth = await UsersService.getToken();
+    let config = {
+      method: 'patch',
+      url: `http://145.239.168.115:8080/api/v1/db/meta/hooks/${updateHookInput.hookId}`,
+      headers: {
+        'xc-auth': responseAuth.data.token,
+      },
+      data: updateHookInput.data,
+    };
+    try {
+      const response = await axios(config);
+      return response;
+    } catch (err) {
+      throw new GraphQLError(err.toJSON().status);
+    }
+  }
 }

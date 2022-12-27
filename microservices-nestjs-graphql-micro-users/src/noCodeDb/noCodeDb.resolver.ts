@@ -15,6 +15,9 @@ import { PatchColInput } from './dto/patchColInput';
 import { AddViewInput } from './dto/addViewInput';
 import { PermessionOutPut } from './dto/permessionOutPut';
 import { CanPrimaryKeyOutput } from './dto/canPrimaryKey';
+import { GetHookInput } from './dto/getHookInput';
+import { AddHookInput } from './dto/addHookInput';
+import { UpdateHookInput } from './dto/updateHookInput';
 
 export class UsersResolver {
   constructor(private usersService: UsersService) {}
@@ -98,5 +101,21 @@ export class UsersResolver {
   @Mutation(() => PermessionOutPut)
   canBeNull(@Args('getRowsInput') getRowsInput: CanPrimaryKeyOutput) {
     return UsersService.canBeNull(getRowsInput);
+  }
+  @Query(() => NoCodeDbOutput)
+  getHooks(@Args('getHookInput') getHookInput: GetHookInput) {
+    return UsersService.getHooks(getHookInput);
+  }
+  @Mutation(() => NoCodeDbOutput)
+  addHook(@Args('addHookinput') addHookinput: AddHookInput) {
+    return UsersService.addHook(addHookinput);
+  }
+  @Mutation(() => NoCodeDbOutput)
+  deleteHook(@Args('hookId', { type: () => String }) hookId: string) {
+    return UsersService.deleteHook(hookId);
+  }
+  @Mutation(() => NoCodeDbOutput)
+  patchHook(@Args('updateHookInput') updateHookInput: UpdateHookInput) {
+    return UsersService.updateHook(updateHookInput);
   }
 }
