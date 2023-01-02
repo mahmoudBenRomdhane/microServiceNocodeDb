@@ -18,6 +18,8 @@ import { CanPrimaryKeyOutput } from './dto/canPrimaryKey';
 import { GetHookInput } from './dto/getHookInput';
 import { AddHookInput } from './dto/addHookInput';
 import { UpdateHookInput } from './dto/updateHookInput';
+import { AddSortInput } from './dto/addSortInput';
+import { AddFiltreInput } from './dto/addFiltreInput';
 
 export class UsersResolver {
   constructor(private usersService: UsersService) {}
@@ -117,5 +119,13 @@ export class UsersResolver {
   @Mutation(() => NoCodeDbOutput)
   patchHook(@Args('updateHookInput') updateHookInput: UpdateHookInput) {
     return UsersService.updateHook(updateHookInput);
+  }
+  @Mutation(() => NoCodeDbOutput)
+  addSort(@Args('addSortInput') addSortInput: AddSortInput) {
+    return UsersService.addSort(addSortInput);
+  }
+  @Mutation(() => NoCodeDbOutput)
+  addFiltre(@Args('addFiltre') addFiltre: AddFiltreInput) {
+    return UsersService.addSort(addFiltre);
   }
 }

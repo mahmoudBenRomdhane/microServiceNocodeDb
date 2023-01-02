@@ -480,4 +480,111 @@ export class UsersService {
       throw new GraphQLError(err.toJSON().status);
     }
   }
+  static async addSort(addSortInput) {
+    const responseAuth = await UsersService.getToken();
+    let data = JSON.stringify({
+      title: Math.random().toString(36).substring(2, 8),
+      type: 5,
+      copy_from_id: null,
+      fk_grp_col_id: null,
+    });
+
+    let config = {
+      method: 'post',
+      url: `http://145.239.168.115:8080/api/v1/db/meta/tables/${addSortInput.tableId}/grids`,
+      headers: {
+        'xc-auth': responseAuth.data.token,
+        'Content-Type': 'application/json',
+        Cookie:
+          'refresh_token=7f090c83901cf25b14f513c8a54fe20e0dac3ec951c2780501d9bd349f89a9f86f84d46022d53229',
+      },
+      data: data,
+    };
+    try {
+      const response = await axios(config);
+      const viewId = response.data.id;
+      let data = JSON.stringify({
+        direction: addSortInput.direction,
+        fk_column_id: addSortInput.columnId,
+      });
+      let config_2 = {
+        method: 'post',
+        url: `http://145.239.168.115:8080/api/v1/db/meta/views/${viewId}/sorts`,
+        headers: {
+          'xc-auth': responseAuth.data.token,
+          'Content-Type': 'application/json',
+          Cookie:
+            'refresh_token=7f090c83901cf25b14f513c8a54fe20e0dac3ec951c2780501d9bd349f89a9f86f84d46022d53229',
+        },
+        data: data,
+      };
+      const response_2 = await axios(config_2);
+      const getRowsInput = {
+        tableId: addSortInput.tableId,
+        projectId: addSortInput.projectId,
+        viewId: viewId,
+        page: addSortInput.page,
+        limit: addSortInput.limit,
+      };
+      const response_3 = await this.getRows(getRowsInput);
+      return response_3;
+    } catch (err) {
+      throw new GraphQLError(err.toJSON().status);
+    }
+  }
+  static async addFilter(addFilterInput) {
+    const responseAuth = await UsersService.getToken();
+    let data = JSON.stringify({
+      title: Math.random().toString(36).substring(2, 8),
+      type: 5,
+      copy_from_id: null,
+      fk_grp_col_id: null,
+    });
+
+    let config = {
+      method: 'post',
+      url: `http://145.239.168.115:8080/api/v1/db/meta/tables/${addFilterInput.tableId}/grids`,
+      headers: {
+        'xc-auth': responseAuth.data.token,
+        'Content-Type': 'application/json',
+        Cookie:
+          'refresh_token=7f090c83901cf25b14f513c8a54fe20e0dac3ec951c2780501d9bd349f89a9f86f84d46022d53229',
+      },
+      data: data,
+    };
+    try {
+      const response = await axios(config);
+      const viewId = response.data.id;
+      let data = JSON.stringify({
+        comparison_op: addFilterInput.comparison_op,
+        fk_column_id: addFilterInput.columnId,
+        logical_op: addFilterInput.logical_op,
+        status: addFilterInput.status,
+        value: addFilterInput.value,
+      });
+      let config_2 = {
+        method: 'post',
+        url: `http://145.239.168.115:8080/api/v1/db/meta/views/${viewId}/filters`,
+        headers: {
+          'xc-auth': responseAuth.data.token,
+          'Content-Type': 'application/json',
+          Cookie:
+            'refresh_token=7f090c83901cf25b14f513c8a54fe20e0dac3ec951c2780501d9bd349f89a9f86f84d46022d53229',
+        },
+        data: data,
+      };
+      const response_2 = await axios(config_2);
+      const getRowsInput = {
+        tableId: addFilterInput.tableId,
+        projectId: addFilterInput.projectId,
+        viewId: viewId,
+        page: addFilterInput.page,
+        limit: addFilterInput.limit,
+      };
+      const response_3 = await this.getRows(getRowsInput);
+      return response_3;
+    } catch (err) {
+      throw new GraphQLError(err.toJSON().status);
+    }
+  }
 }
