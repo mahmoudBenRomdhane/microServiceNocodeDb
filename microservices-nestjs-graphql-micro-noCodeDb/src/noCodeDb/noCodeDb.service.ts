@@ -587,4 +587,44 @@ export class UsersService {
       throw new GraphQLError(err.toJSON().status);
     }
   }
+  static async getRow(getRowInput) {
+    const responseAuth = await UsersService.getToken();
+    let config = {
+      method: 'get',
+      url: `http://145.239.168.115:8080/api/v1/db/data/noco/${getRowInput.projectId}/${getRowInput.tableId}/views/${getRowInput.viewId}/${getRowInput.rowId}`,
+      headers: {
+        'xc-auth': responseAuth.data.token,
+      },
+    };
+    try {
+      const response = await axios(config);
+      return response;
+    } catch (err) {
+      throw new GraphQLError(err.toJSON().status);
+    }
+  }
+  static async getRowList(getRowListInput) {
+    const responseAuth = await UsersService.getToken();
+    let config = {
+      method: 'get',
+      url: `http://145.239.168.115:8080/api/v1/db/data/noco/${
+        getRowListInput.projectId
+      }/${getRowListInput.tableId}/?offset=${getRowListInput.page - 1}&limit=${
+        getRowListInput.limit
+      }&fields=${getRowListInput.fields}&sort=${getRowListInput.sort}&where=${
+        getRowListInput.filter
+      }`,
+      headers: {
+        'xc-auth': responseAuth.data.token,
+        Cookie:
+          'refresh_token=a76f010a6b08ba1c76b536fb0203eb6082cc6b5b72623aaa283eb3a6a6b481ede666b3322aa94205',
+      },
+    };
+    try {
+      const response = await axios(config);
+      return response;
+    } catch (err) {
+      throw new GraphQLError(err.toJSON().status);
+    }
+  }
 }
