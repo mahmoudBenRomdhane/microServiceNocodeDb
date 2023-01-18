@@ -2,7 +2,7 @@ import { InputType, Field } from '@nestjs/graphql';
 import { GraphQLJSON } from 'graphql-type-json';
 
 @InputType()
-export class AddTableInput {
+export class AddCategorieInput {
   @Field(() => String)
   title: string;
   @Field(() => String)
@@ -11,6 +11,4 @@ export class AddTableInput {
   projectId: string;
   @Field(() => [GraphQLJSON])
   columns: any;
-  @Field(() => String)
-  categorieTitle: string;
 }

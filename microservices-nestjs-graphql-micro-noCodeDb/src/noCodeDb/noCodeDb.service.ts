@@ -105,7 +105,7 @@ export class UsersService {
   static async addTable(table: any) {
     const responseAuth = await UsersService.getToken();
     let data = {
-      title: table.title,
+      title: `${table.categorieTitle + '_' + table.title}`,
       table_name: table.table_name,
       columns: table.columns,
     };
@@ -619,6 +619,31 @@ export class UsersService {
         Cookie:
           'refresh_token=a76f010a6b08ba1c76b536fb0203eb6082cc6b5b72623aaa283eb3a6a6b481ede666b3322aa94205',
       },
+    };
+    try {
+      const response = await axios(config);
+      return response;
+    } catch (err) {
+      throw new GraphQLError(err.toJSON().status);
+    }
+  }
+  static async addcategorie(table: any) {
+    const responseAuth = await UsersService.getToken();
+    let data = {
+      title: `${'cat__' + table.title}`,
+      table_name: table.table_name,
+      columns: [],
+    };
+    let config = {
+      method: 'post',
+      url: `http://145.239.168.115:8080/api/v1/db/meta/projects/${table.projectId}/tables`,
+      headers: {
+        'xc-auth': responseAuth.data.token,
+        'Content-Type': 'application/json',
+        Cookie:
+          'refresh_token=a76f010a6b08ba1c76b536fb0203eb6082cc6b5b72623aaa283eb3a6a6b481ede666b3322aa94205',
+      },
+      data: data,
     };
     try {
       const response = await axios(config);

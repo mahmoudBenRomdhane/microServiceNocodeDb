@@ -22,6 +22,7 @@ import { AddSortInput } from './dto/addSortInput';
 import { AddFiltreInput } from './dto/addFiltreInput';
 import { GetSoloRowInput } from './dto/getSoloRowInput';
 import { GetRowListInput } from './dto/getRowListInput';
+import { AddCategorieInput } from './dto/addCategorieInput';
 
 export class UsersResolver {
   constructor(private usersService: UsersService) {}
@@ -137,5 +138,11 @@ export class UsersResolver {
   @Query(() => NoCodeDbOutput)
   getRowListInput(@Args('getRowInput') getRowListInput: GetRowListInput) {
     return UsersService.getRowList(getRowListInput);
+  }
+  @Mutation(() => NoCodeDbOutput)
+  addcategorie(
+    @Args('addCategorieInput') addCategorieInput: AddCategorieInput,
+  ) {
+    return UsersService.addcategorie(addCategorieInput);
   }
 }
