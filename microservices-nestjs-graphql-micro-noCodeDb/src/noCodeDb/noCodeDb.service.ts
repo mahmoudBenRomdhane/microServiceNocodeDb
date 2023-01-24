@@ -652,4 +652,25 @@ export class UsersService {
       throw new GraphQLError(err.toJSON().status);
     }
   }
+  static async getNesetedRowList(data: any) {
+    const responseAuth = await UsersService.getToken();
+    console.log('tokennn--*--*--*-*-*-*-*-*-*-*-*', responseAuth.data.token);
+    let config = {
+      method: 'get',
+      url: `http://145.239.168.115:8080/api/v1/db/data/noco/${data.projectId}/${data.tableId}/${data.rowId}/${data.relationType}/${data.fieldName}`,
+      headers: {
+        'xc-auth': responseAuth.data.token,
+        Cookie:
+          'refresh_token=a76f010a6b08ba1c76b536fb0203eb6082cc6b5b72623aaa283eb3a6a6b481ede666b3322aa94205',
+      },
+    };
+    console.log('configgg-*-*-*-*-*-*-*-*', config.url);
+    try {
+      const response = await axios(config);
+      return response;
+    } catch (err) {
+      console.log('err*-*-*-**-*-*-**-', err);
+      throw new GraphQLError(err.toJSON().status);
+    }
+  }
 }
