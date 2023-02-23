@@ -10,7 +10,7 @@ export class PatchRowInput {
   @Field(() => String)
   viewId: string;
   @Field(() => Number)
-  rowIndex: number;
+  rowIndex: string;
   @Field(() => GraphQLJSON)
   row: any;
 }
